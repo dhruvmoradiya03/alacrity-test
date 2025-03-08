@@ -1,0 +1,29 @@
+on:
+  push:
+    branches:
+      - master
+concurrency:
+  group: master
+  cancel-in-progress: true
+name: 🚀 Deploy master to DigitalOcean Server
+jobs:
+  deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 SSH Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PRODUCTION_SERVER_HOST }}
+          username: ${{ secrets.PRODUCTION_SERVER_USER }}
+          key: ${{ secrets.PRODUCTION_SERVER_KEY }}
+          port: ${{ secrets.PRODUCTION_SERVER_PORT }}
+          script: |
+            cd /var/www/alacrity-react-js/
+            sudo git reset --hard
+            sudo git checkout master
+            sudo git pull origin master
+            sudo yarn
+            sudo yarn build
+            sudo pm2 restart "alacrity-web"
+            sudo pm2 save
