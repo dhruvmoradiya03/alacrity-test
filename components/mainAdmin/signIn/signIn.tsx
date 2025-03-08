@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import ForgotPassword from "../forgotPassword/forgotPassword";
+import { signIn, UserType } from "@/services/auth.api";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -59,9 +60,25 @@ const MainAdminSignIn = () => {
     if (valid) {
       try {
         setLoading(true);
+        const res = await signIn({
+          email,
+          password,
+          userType: UserType.MAIN_ADMIN,
+        });
 
-        //API call
+        if (res.status === 201) {
+          const data = await res.json();
+          console.log("data", data);
+          localStorage.setItem("token", data.userSession.authToken);
+          router.push("/dashboard");
+        } else {
+          const data = await res.json();
+          console.log("data", data.message);
+          message.error(data.message); // Ensure this line is executed
+        }
       } catch (error: unknown) {
+        console.error("Error while signing in", error);
+        message.error("Error while signing in");
       } finally {
         setLoading(false);
       }
@@ -85,7 +102,7 @@ const MainAdminSignIn = () => {
           }}
         />
       ) : (
-        <div className="flex flex-col items-center justify-center w-[25%] bg-transparent ">
+        <div className="flex flex-col items-center justify-center w-[25%] bg-transparent font-roboto">
           <h1 className="text-4xl font-bold text-gray-800 mb-6">LOGO</h1>
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
             Welcome Back!
