@@ -17,7 +17,6 @@ export interface loginPayload {
   password?: string;
   userType?: UserType;
 }
-
 export const signIn = async (payload: loginPayload): Promise<any> => {
   const { email, password, userType } = payload;
 

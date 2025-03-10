@@ -74,10 +74,9 @@ const MainAdminSignIn = () => {
         } else {
           const data = await res.json();
           console.log("data", data.message);
-          message.error(data.message); // Ensure this line is executed
+          message.error(data.message);
         }
       } catch (error: unknown) {
-        console.error("Error while signing in", error);
         message.error("Error while signing in");
       } finally {
         setLoading(false);
