@@ -28,3 +28,22 @@ body {
 .ant-message {
   z-index: 9999;
 }
+
+/* Custom scrollbar for table */
+.custom-scrollbar .ant-table-body::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.custom-scrollbar .ant-table-body::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 4px !important;
+}
+
+.custom-scrollbar .ant-table-body::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 4px !important;
+}
+
+.custom-scrollbar .ant-table-body::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+}

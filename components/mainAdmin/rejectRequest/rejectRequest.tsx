@@ -28,7 +28,7 @@ const RejectRequest = ({
         onClick={onCancel}
       ></div>
       <div
-        className="bg-white rounded-lg overflow-hidden"
+        className="bg-white rounded-3xl overflow-hidden relative"
         style={{ width: "460px", height: "460px" }}
       >
         <div
@@ -37,7 +37,7 @@ const RejectRequest = ({
             backgroundImage: "url('/images/bg.svg')",
             backgroundSize: "cover",
             backgroundPosition: "top",
-            height: "160px", // Adjust height of the background image
+            height: "160px",
           }}
         >
           <Image
@@ -74,6 +74,12 @@ const RejectRequest = ({
               Submit
             </Button>
           </div>
+        </div>
+        <div
+          className="absolute top-4 right-4 cursor-pointer"
+          onClick={onCancel}
+        >
+          <Image src="/images/add.svg" alt="Close" width={24} height={24} />
         </div>
       </div>
     </div>

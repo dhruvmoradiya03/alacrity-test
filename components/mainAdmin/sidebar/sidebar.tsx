@@ -38,7 +38,7 @@ const Sidebar = () => {
               setActiveButton("dashboard");
               router.push("/dashboard");
             }}
-            className={`flex items-center space-x-3 p-3 rounded-lg ${
+            className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer ${
               activeButton === "dashboard"
                 ? "bg-white text-[#E9947F] font-medium"
                 : "text-white opacity-80 hover:opacity-100"
@@ -65,7 +65,7 @@ const Sidebar = () => {
               setActiveButton("manageClient");
               router.push("/manageClient");
             }}
-            className={`flex items-center space-x-3 p-3 rounded-lg ${
+            className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer ${
               activeButton === "manageClient"
                 ? "bg-white text-[#E9947F] font-medium"
                 : "text-white opacity-80 hover:opacity-100"
@@ -92,7 +92,7 @@ const Sidebar = () => {
               setActiveButton("introVideo");
               router.push("/introVideo");
             }}
-            className={`flex items-center space-x-3 p-3 rounded-lg ${
+            className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer ${
               activeButton === "introVideo"
                 ? "bg-white text-[#E9947F] font-medium"
                 : "text-white opacity-80 hover:opacity-100"
@@ -120,8 +120,8 @@ const Sidebar = () => {
         className="h-[20%] bg-white text-black p-4 rounded-xl flex flex-col items-center space-y-2 relative bg-cover bg-center"
         style={{
           backgroundImage: "url('/images/sidebar-profile-bg.png')",
-          backgroundSize: "150%", // Increase size of the background image
-          backgroundPosition: "center", // Keep it centered
+          backgroundSize: "150%",
+          backgroundPosition: "center",
         }}
       >
         <div

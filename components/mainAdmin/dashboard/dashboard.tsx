@@ -5,7 +5,7 @@ import Navbar from "../navbar/navbar";
 
 const Dashboard = () => {
   return (
-    <div className="h-screen w-screen flex">
+    <div className="h-screen w-full flex">
       <Sidebar />
       <div className="w-[85%] h-screen">
         <Navbar />
