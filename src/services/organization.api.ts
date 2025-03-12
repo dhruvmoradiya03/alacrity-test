@@ -85,3 +85,48 @@ export const deleteOrg = async (
 
   return res.json();
 };
+
+export interface CreateOrgParams {
+  organizationName?: string;
+  gstNumber?: string;
+  gstCertificate?: string;
+  email?: string;
+  countryCode?: string;
+  phoneNumber?: string;
+  address?: string;
+}
+
+export const createOrg = async (
+  authorization: string,
+  createOrgParams: CreateOrgParams
+): Promise<any> => {
+  const res = await fetch(`${host}/organization/create-org`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authorization}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(createOrgParams),
+  });
+
+  return res.json();
+};
+
+export const updateOrg = async (
+  authorization: string,
+  id: string,
+  createOrgParams: CreateOrgParams
+): Promise<any> => {
+  const queryParams = new URLSearchParams({ id }).toString();
+
+  const res = await fetch(`${host}/organization/update-org?${queryParams}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authorization}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(createOrgParams),
+  });
+
+  return res.json();
+};

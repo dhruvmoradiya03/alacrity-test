@@ -16,6 +16,8 @@ import {
 } from "@/services/organization.api";
 import RejectRequest from "../rejectRequest/rejectRequest";
 import ClientDetail from "./clientDetail";
+import AddOrganization from "./addOrganization";
+import EditOrganization from "./editOrganization";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -41,6 +43,8 @@ const ManageClient = () => {
   const [rejectModalVisible, setRejectModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const [addOrgModalVisible, setAddOrgModalVisible] = useState(false);
+  const [editOrgModalVisible, setEditOrgModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<ClientData | null>(null);
 
   const [pagination, setPagination] = useState({
@@ -95,7 +99,8 @@ const ManageClient = () => {
   const handleMenuClick = (e: any, record: ClientData) => {
     e.domEvent.stopPropagation();
     if (e.key === "edit") {
-      // Handle edit action
+      setSelectedRecord(record);
+      setEditOrgModalVisible(true);
     } else if (e.key === "delete") {
       setSelectedRecord(record);
       setDeleteModalVisible(true);
@@ -197,6 +202,16 @@ const ManageClient = () => {
   const handleRowClick = (record: ClientData) => {
     setSelectedRecord(record);
     setDetailModalVisible(true);
+  };
+
+  const handleAddOrganization = (newOrg: any) => {
+    setOrgData((prevData) => [newOrg, ...prevData]);
+  };
+
+  const handleEditOrganization = (updatedOrg: any) => {
+    setOrgData((prevData) =>
+      prevData.map((item) => (item.id === updatedOrg.id ? updatedOrg : item))
+    );
   };
 
   const menu = (record: ClientData) => (
@@ -326,6 +341,15 @@ const ManageClient = () => {
       <div className="w-[85%] h-screen">
         <Navbar />
         <div className="p-6">
+          <div className="flex justify-end mb-4">
+            <Button
+              type="primary"
+              className="!bg-[#EC8C6F] !border-[#EC8C6F] !text-white !h-[46px] !w-[152px] !rounded-[32px]"
+              onClick={() => setAddOrgModalVisible(true)}
+            >
+              Add New
+            </Button>
+          </div>
           <Table
             columns={columns}
             dataSource={orgData.map((item: any, index) => ({
@@ -344,7 +368,7 @@ const ManageClient = () => {
               className: "cursor-pointer",
             })}
             className="w-full custom-scrollbar"
-            scroll={orgData.length > 9 ? { y: 450 } : undefined}
+            scroll={orgData.length > 9 ? { y: 390 } : undefined}
             sticky
           />
         </div>
@@ -371,7 +395,7 @@ const ManageClient = () => {
           ></div>
           <div
             className="bg-white rounded-3xl overflow-hidden relative"
-            style={{ width: "430px", height: "360px" }}
+            style={{ width: "430px", height: "340px" }}
           >
             <div
               className="w-full flex justify-center items-center"
@@ -407,10 +431,30 @@ const ManageClient = () => {
               className="absolute top-4 right-4 cursor-pointer"
               onClick={() => setDeleteModalVisible(false)}
             >
-              <Image src="/images/add.svg" alt="Close" width={24} height={24} />
+              <Image
+                src="/images/close.svg"
+                alt="Close"
+                width={24}
+                height={24}
+              />
             </div>
           </div>
         </div>
+      )}
+      {addOrgModalVisible && (
+        <AddOrganization
+          visible={addOrgModalVisible}
+          onCancel={() => setAddOrgModalVisible(false)}
+          onAddOrganization={handleAddOrganization}
+        />
+      )}
+      {editOrgModalVisible && selectedRecord && (
+        <EditOrganization
+          visible={editOrgModalVisible}
+          onCancel={() => setEditOrgModalVisible(false)}
+          record={selectedRecord}
+          onEditOrganization={handleEditOrganization}
+        />
       )}
     </div>
   );
