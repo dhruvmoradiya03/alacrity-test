@@ -340,7 +340,7 @@ const ManageClient = () => {
       <Sidebar />
       <div className="w-[85%] h-screen">
         <Navbar />
-        <div className="p-6">
+        <div className="p-6 !pb-0">
           <div className="flex justify-end mb-4">
             <Button
               type="primary"
@@ -367,8 +367,8 @@ const ManageClient = () => {
               onClick: () => handleRowClick(record),
               className: "cursor-pointer",
             })}
-            className="w-full custom-scrollbar"
-            scroll={orgData.length > 9 ? { y: 390 } : undefined}
+            className="w-full custom-scrollbar !pb-0"
+            scroll={orgData.length > 9 ? { y: 380 } : undefined}
             sticky
           />
         </div>

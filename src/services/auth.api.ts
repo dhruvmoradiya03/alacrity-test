@@ -17,6 +17,7 @@ export interface loginPayload {
   password?: string;
   userType?: UserType;
 }
+
 export const signIn = async (payload: loginPayload): Promise<any> => {
   const { email, password, userType } = payload;
 
@@ -27,6 +28,68 @@ export const signIn = async (payload: loginPayload): Promise<any> => {
     },
     body: JSON.stringify({ email, password, userType }),
   });
+
+  return res;
+};
+
+export const getCurrentUser = async (authorization: string): Promise<any> => {
+  const res = await fetch(`${host}/auth/profile`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${authorization}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  return res;
+};
+
+export interface EditMainAdminPayload {
+  email?: string;
+  name?: string;
+  countryCode?: string;
+  phoneNumber?: string;
+}
+
+export const editCurrentUser = async (
+  authorization: string,
+  editMainAdminPayload: EditMainAdminPayload
+): Promise<any> => {
+  const res = await fetch(`${host}/auth/edit-profile`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${authorization}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editMainAdminPayload),
+  });
+
+  return res;
+};
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export const changePassword = async (
+  authorization: string,
+  changePasswordPayload: ChangePasswordPayload
+): Promise<any> => {
+  const queryParams = new URLSearchParams(
+    changePasswordPayload as any
+  ).toString();
+
+  const res = await fetch(
+    `${host}/auth/change-main-admin-password?${queryParams}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   return res;
 };

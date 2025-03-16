@@ -2,6 +2,8 @@
 import { Inter } from "next/font/google";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import EditProfile from "../editProfile/editProfile";
+import { getCurrentUser } from "@/services/auth.api";
 
 const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
@@ -10,17 +12,41 @@ const inter = Inter({
 
 const Sidebar = () => {
   const [activeButton, setActiveButton] = useState("dashboard");
+  const [editProfileVisible, setEditProfileVisible] = useState(false);
+  const [userProfile, setUserProfile] = useState({
+    name: "",
+    email: "",
+    profilePicture: "",
+  });
   const router = useRouter();
 
   const path = usePathname();
+
+  const fetchUserProfile = async () => {
+    try {
+      const idToken: any = localStorage.getItem("token");
+      const res = await getCurrentUser(idToken);
+      const data = await res.json();
+      if (res.ok) {
+        setUserProfile({
+          name: data.name || "Admin",
+          email: data.email,
+          profilePicture: data.profilePicture || "/images/sidebar-profile.svg",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user profile: ", error);
+    }
+  };
 
   useEffect(() => {
     const page = path.split("/")[1];
 
     if (page && page !== "" && page !== "users") {
-      console.log(page, "[][][][][]");
       setActiveButton(page);
     }
+
+    fetchUserProfile();
   }, []);
 
   return (
@@ -117,24 +143,34 @@ const Sidebar = () => {
         </div>
       </div>
       <div
-        className="h-[20%] bg-white text-black p-4 rounded-xl flex flex-col items-center space-y-2 relative bg-cover bg-center"
+        className="h-[20%] bg-white text-black p-4 rounded-xl flex flex-col items-center space-y-2 relative bg-cover bg-center cursor-pointer"
         style={{
           backgroundImage: "url('/images/sidebar-profile-bg.png')",
           backgroundSize: "150%",
           backgroundPosition: "center",
         }}
+        onClick={() => {
+          fetchUserProfile();
+          setEditProfileVisible(true);
+        }}
       >
         <div
           className="w-12 h-12 bg-gray-300 rounded-full bg-cover bg-center"
           style={{
-            backgroundImage: "url('/images/sidebar-profile.svg')",
+            backgroundImage: `url(${userProfile.profilePicture})`,
           }}
         ></div>
         <div className="text-center">
-          <p className="font-semibold">John Deo</p>
-          <p className="text-sm text-gray-500">abc@example@gmail.com</p>
+          <p className="font-semibold">{userProfile.name}</p>
+          <p className="text-sm text-gray-500">{userProfile.email}</p>
         </div>
       </div>
+      {editProfileVisible && (
+        <EditProfile
+          visible={editProfileVisible}
+          onCancel={() => setEditProfileVisible(false)}
+        />
+      )}
     </div>
   );
 };
