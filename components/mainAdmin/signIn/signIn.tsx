@@ -30,6 +30,7 @@ const MainAdminSignIn = () => {
   };
 
   const handleSignIn = async (event: any) => {
+    console.log("handle event");
     event.preventDefault();
 
     let valid = true;
@@ -56,6 +57,8 @@ const MainAdminSignIn = () => {
         valid = false;
       }
     }
+
+    console.log(valid, "valid state");
 
     if (valid) {
       try {
@@ -174,7 +177,7 @@ const MainAdminSignIn = () => {
             </div>
           </div>
           <Button
-            onClick={(e)=>handleSignIn(e)}
+            onClick={(e) => handleSignIn(e)}
             type="primary"
             className="!bg-[#EC8C6F] !border-[#EC8C6F] !text-white !h-[48px] !w-full hover:!bg-[#d9785c] hover:!border-[#d9785c] !rounded-[32px] mt-12"
             disabled={loading}
