@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
 import ChangePassword from "../changePassword/changePassword";
+import Logout from "../logout/logout";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -14,12 +15,13 @@ const roboto = Roboto({
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+  const [logoutVisible, setLogoutVisible] = useState(false);
 
   const handleMenuClick = (e: any) => {
     if (e.key === "changePassword") {
       setChangePasswordVisible(true);
     } else if (e.key === "logout") {
-      // Handle logout action
+      setLogoutVisible(true);
     }
   };
 
@@ -89,6 +91,12 @@ const Navbar = () => {
         <ChangePassword
           visible={changePasswordVisible}
           onCancel={() => setChangePasswordVisible(false)}
+        />
+      )}
+      {logoutVisible && (
+        <Logout
+          visible={logoutVisible}
+          onCancel={() => setLogoutVisible(false)}
         />
       )}
     </div>

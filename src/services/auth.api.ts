@@ -93,3 +93,15 @@ export const changePassword = async (
 
   return res;
 };
+
+export const logoutUser = async (authorization: string): Promise<any> => {
+  const res = await fetch(`${host}/auth/logout`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authorization}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  return res;
+};
