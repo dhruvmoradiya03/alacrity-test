@@ -16,6 +16,7 @@ const ForgotPassword = (props: any) => {
     return re.test(String(email).toLowerCase());
   };
 
+  console.log("thi is forgot password");
   const handleSendLink = async (event: any) => {
     event.preventDefault();
 
@@ -32,6 +33,8 @@ const ForgotPassword = (props: any) => {
         valid = false;
       }
     }
+
+    console.log("this is in send link");
 
     if (valid) {
       setLoading(false);
