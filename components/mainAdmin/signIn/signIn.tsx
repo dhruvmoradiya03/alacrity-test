@@ -61,29 +61,29 @@ const MainAdminSignIn = () => {
 
     console.log(valid, "this is valid");
 
-    if (valid) {
-      try {
-        setLoading(true);
-        const res = await signIn({
-          email,
-          password,
-          userType: UserType.MAIN_ADMIN,
-        });
+    // if (valid) {
+    try {
+      setLoading(true);
+      const res = await signIn({
+        email,
+        password,
+        userType: UserType.MAIN_ADMIN,
+      });
 
-        if (res.status === 201) {
-          const data = await res.json();
-          localStorage.setItem("token", data.userSession.authToken);
-          router.push("/dashboard");
-        } else {
-          const data = await res.json();
-          message.error(data.message);
-        }
-      } catch (error: unknown) {
-        message.error("Error while signing in");
-      } finally {
-        setLoading(false);
+      if (res.status === 201) {
+        const data = await res.json();
+        localStorage.setItem("token", data.userSession.authToken);
+        router.push("/dashboard");
+      } else {
+        const data = await res.json();
+        message.error(data.message);
       }
+    } catch (error: unknown) {
+      message.error("Error while signing in");
+    } finally {
+      setLoading(false);
     }
+    // }
   };
 
   return (
